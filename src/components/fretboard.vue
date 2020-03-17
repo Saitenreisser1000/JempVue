@@ -25,7 +25,6 @@
                 }
             }
         },
-
         components: {
             string,
             fret

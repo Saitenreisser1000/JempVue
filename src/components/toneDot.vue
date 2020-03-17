@@ -1,8 +1,8 @@
 <template>
     <div class="dot"
-         :class="{ dotClicked: dotIsActive }"
+         :class="{ dotClicked: isActive || dotIsActive }"
          @click="onClickDot"
-        :style="{'background-color': dotColor}"
+        :style="{'background-color': dotInfo.color}"
     >{{dotInfo.show}}</div>
 
 </template>
@@ -12,33 +12,30 @@
 
     export default {
         name: "toneDot",
-        props: ['isActive', 'color','dotInfo'],
+        props: ['dotInfo', 'isEditable'],
         data: function () {
             return {
                 dotIsActive : this.dotInfo.isActive,
-                dotColor: this.dotInfo.color
             }
         },
-        watch: {
+        computed: {
             isActive: function(){
-                this.dotIsActive = this.dotInfo.isActive
-
+                return this.dotInfo.isActive
             },
-
-            color: function(){
-                this.dotColor = this.dotInfo.color
+            getEditable: function(){
+                return this.isEditable
             }
-
         },
         methods: {
             onClickDot(){
-                this.dotIsActive = !this.dotIsActive,
-                this.addToStorage()
+                if(this.getEditable) {
+                    this.dotIsActive = !this.dotIsActive;
+                    this.dotInfo.color = store.getters.getColor;
+                    this.addToStorage()
+                }
             },
-
             addToStorage () {
-                store.commit('addDot', {id: this.$vnode.key, active: this.dotIsActive, time: 0, color: null })
-
+                store.commit('addDot', {id: this.$vnode.key, active: this.dotIsActive, time: 0})
             },
         },
     }
@@ -46,6 +43,7 @@
 
 <style scoped>
     .dot{
+        z-index: 5;
         cursor: pointer;
         text-align: center;
         opacity: 0;
@@ -56,8 +54,9 @@
         background-color: indianred;
         border-radius: 50%;
         border-color: black;
+        border-width: 1px;
         border-style: solid;
-        box-shadow: 0px 5px 9px 1px rgba(0,0,0,0.52);
+        box-shadow: 0 5px 9px 1px rgba(0,0,0,0.52);
 
     }
     .dot:hover{
