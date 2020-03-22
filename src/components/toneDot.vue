@@ -1,6 +1,6 @@
 <template>
     <div class="dot"
-         :class="{ dotClicked: isActive || dotIsActive }"
+         :class="{ dotClicked: isActive}"
          @click="onClickDot"
         :style="{'background-color': dotInfo.color}"
     >{{dotInfo.show}}</div>
@@ -8,16 +8,11 @@
 </template>
 
 <script>
-    import { store } from "@/store/store";
+    import { store } from "@/Store/store";
 
     export default {
         name: "toneDot",
         props: ['dotInfo', 'isEditable'],
-        data: function () {
-            return {
-                dotIsActive : this.dotInfo.isActive,
-            }
-        },
         computed: {
             isActive: function(){
                 return this.dotInfo.isActive
@@ -29,14 +24,18 @@
         methods: {
             onClickDot(){
                 if(this.getEditable) {
-                    this.dotIsActive = !this.dotIsActive;
-                    this.dotInfo.color = store.getters.getColor;
+                    this.$emit('playTone', this.dotInfo);
+                    this.dotInfo.isActive = !this.dotInfo.isActive
                     this.addToStorage()
                 }
             },
             addToStorage () {
-                store.commit('addDot', {id: this.$vnode.key, active: this.dotIsActive, time: 0})
+                store.commit('addDot', {id: this.$vnode.key, active: this.dotInfo, time: this.getTimeFromStore()})
             },
+            getTimeFromStore() {
+                store.dispatch('timeCalculation')
+                return store.getters.getTime
+            }
         },
     }
 </script>

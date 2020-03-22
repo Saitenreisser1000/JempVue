@@ -1,37 +1,40 @@
 <template>
     <div id="uiField">
-        <button class="btn" @click="clickedOne">Blue</button>
-        <button class="btn" @click="clickedTwo">Green</button>
-        <button class="btn" @click="clickedThree">Red</button>
+        <button class="btn" @click="clickedOne">Clear</button>
+        <button class="btn" @click="clickedTwo">...</button>
+        <button class="btn" @click="clickedThree">ColorAll</button>
         <label class="switch">
             <input type="checkbox" @change="editable()" checked>
             <span class="slider round"></span>
         </label>
         <div class="control-group">
             <label class="control control-radio">
-                Red
-                <input type="radio" v-model="selectedColor" value="red" name="radio" checked="checked" />
+                Red:
+                <input type="radio" v-model="selectedColor" value="indianred" name="radio" checked="checked" />
             </label>
             <label class="control control-radio">
-                Blue
+                Blue:
                 <input type="radio" v-model="selectedColor" value="blue" name="radio" />
             </label>
             <label class="control control-radio">
-                Green
+                Green:
                 <input type="radio" v-model="selectedColor" value="green" name="radio" />
             </label>
             <label class="control control-radio">
-                Yellow
+                Yellow:
                 <input type="radio" v-model="selectedColor" value="yellow" name="radio" />
             </label>
-            <div>Selected: {{selectedColor}}</div>
+            <!--div>Selected: {{selectedColor}}</div-->
         </div>
+        <button class="btn" @click="play">Play / Pause</button>
+        <button class="btn" @click="clickedTwo">Cancel</button>
+        <button class="btn" @click="play">...</button>
     </div>
 </template>
 
 <script>
 
-    import { store } from "@/store/store";
+    import { store } from "@/Store/store";
 
     export default {
         name: "ui",
@@ -41,7 +44,6 @@
                 selectedColor: '#CD5C5C'
             }
         },
-
         created: function(){
             store.dispatch('setColor', this.selectedColor)
         },
@@ -55,19 +57,25 @@
 
         methods: {
           clickedOne(){
-               store.dispatch('changeColor', {string: 4, bar: 5, color: this.selectedColor})
+              //payload = time after cleared
+               store.dispatch('clearAll', 0)
           },
           clickedTwo(){
-              //store.dispatch('changeColorString', {string: 0, color: "yellow"})
+              //Store.dispatch('changeColorString', {string: 0, color: "yellow"})
               store.dispatch('activateDot', {string: 0, bar: 5})
           },
           clickedThree(){
-              store.dispatch('changeColorAll', {color: this.selectedColor})
+              //store.dispatch('changeColorAll', this.selectedColor)
+              //store.dispatch('changeColor', this.selectedColor)
+              store.dispatch('changeColorDot', {id: 1, color: "white"})
           },
           editable(){
               this.isEditable = !this.isEditable;
               store.dispatch('setEditable', this.isEditable)
-          }
+          },
+            play(){
+              store.dispatch('scheduleTones')
+            }
         },
     }
 </script>
@@ -79,15 +87,17 @@
         width: 80%;
         height: 100px;
         border-style: solid;
-        border-width: 10px;
-        border-color: darkgoldenrod;
         background-color: #E9A134;
+
+        -webkit-box-shadow: 10px 10px 12px 1px rgba(0,0,0,0.52);
+        -moz-box-shadow: 10px 10px 12px 1px rgba(0,0,0,0.52);
+        box-shadow: 10px 10px 12px 1px rgba(0,0,0,0.52);
     }
     .btn{
         background-color: #2196F3;
         color: beige;
         float: left;
-        margin: 30px;
+        margin: 10px;
         width: 100px;
         height: 40px;
         border-radius: 5px;
@@ -96,8 +106,20 @@
         background-color: #0A2B4B;
     }
 
+    .control-group{
+        padding: 3px;
+        margin-right: 5px;
+        position: relative;
+        float: left;
+        background-color: beige;
+        left: 10px;
+        top: 10px;
+        border-radius: 5px;
+    }
+
     .switch {
-        top: 30%;
+        top: 10%;
+        left: 5px;
         float: left;
         position: relative;
         display: inline-block;
@@ -157,5 +179,8 @@
     .slider.round:before {
         border-radius: 50%;
     }
+
+    /*****Radio**********/
+
 
 </style>

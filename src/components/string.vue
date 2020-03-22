@@ -8,27 +8,28 @@
         >
 
             <tone-dot
-                    v-for="dot in dotsPerString[str-1]"
+                    v-for="dot in getDotsPerString[str-1]"
                     :key="dot.id+'dot'"
                     :style="{'left': (dot.xPos*dotXDistance)-47 +'px', 'top': '-12px' }"
                     :dotInfo="dot"
                     :isEditable=isEditable
+                    @playTone="playTone"
             >
             </tone-dot>
         </div>
         <div class="posPoints" style="left: 150px"></div>
         <div class="posPoints" style="left: 278px"></div>
         <div class="posPoints" style="left: 403px"></div>
-        <div class="posPoints" style="left: 590px; top: 45px"></div>
-        <div class="posPoints" style="left: 590px; top: 105px"></div>
-        <div class="posPoints" style="left: 780px"></div>
+        <div class="posPoints" style="left: 530px"></div>
+        <div class="posPoints" style="left: 715px; top: 45px"></div>
+        <div class="posPoints" style="left: 715px; top: 105px"></div>
         <div class="posPoints" style="left: 907px"></div>
     </div>
 </template>
 <script>
 
     import ToneDot from "@/components/toneDot";
-    import { store } from "@/store/store";
+    import { store } from "@/Store/store";
     import { mapGetters, mapActions } from "vuex"
 
     export default {
@@ -36,21 +37,24 @@
         name: "string",
 
         created() {
-            store.dispatch('setDots');
+            store.dispatch('initDots');
         },
         data: function () {
             return {
                 dotActive: false,
-                dotsPerString: store.getters.getDotsPerString,
             }
         },
         methods: {
-            ...mapActions(["setDots"])
+            ...mapActions(["setDots, playTone"]),
+
+            playTone: function(dotInfo){
+                store.dispatch('playTone', dotInfo);
+            }
         },
         computed: {
             ...mapGetters(['getDotsPerString', 'getEditable']),
             isEditable: function (){
-                return store.getters.getEditable
+                return this.getEditable
             }
         },
         components: {

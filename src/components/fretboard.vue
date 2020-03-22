@@ -39,6 +39,7 @@
         margin: 50px auto;
         background-color: wheat;
         padding: 0;
+
         -webkit-box-shadow: 10px 10px 12px 1px rgba(0,0,0,0.52);
         -moz-box-shadow: 10px 10px 12px 1px rgba(0,0,0,0.52);
         box-shadow: 10px 10px 12px 1px rgba(0,0,0,0.52);

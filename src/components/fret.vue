@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-    import {store} from "@/store/store";
+    import {store} from "@/Store/store";
 
     export default {
         props: ['fretHeight'],
