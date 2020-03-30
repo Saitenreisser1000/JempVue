@@ -31,7 +31,9 @@ export const store = new Vuex.Store({
         fretAmount: 15,
         isEditable: true,
         dotColor: '',
-        timeCounter: 0
+        timeCounter: 0,
+
+        rollPoints: []
     },
     mutations: {
 
@@ -142,6 +144,9 @@ export const store = new Vuex.Store({
         },
         playTone(state, dotInfo){
             state.player.samplerPlay(dotInfo)
+        },
+        addRollPoint(state, position){
+            state.rollPoints.push(position)
         }
     },
 
@@ -185,6 +190,14 @@ export const store = new Vuex.Store({
         },
         scheduleTones({commit}){
             commit('scheduleSong')
+        },
+
+        //*******guitar roll*************//
+        addRollPoint({commit}){
+            commit('addRollPoint', {xPos: 10, yPos: 10})
+        },
+        removeRollPoint(){
+
         }
     },
 
@@ -209,6 +222,9 @@ export const store = new Vuex.Store({
         },
         getDotContainer:(state) => {
             return state.dotContainer
+        },
+        getAllRollPoints:(state) => {
+            return state.rollPoints
         }
     }
 });

@@ -28,7 +28,7 @@
         </div>
         <button class="btn" @click="play">Play / Pause</button>
         <button class="btn" @click="clickedTwo">Cancel</button>
-        <button class="btn" @click="play">...</button>
+        <button class="btn" @click="addRollPoint">...</button>
     </div>
 </template>
 
@@ -75,6 +75,9 @@
           },
             play(){
               store.dispatch('scheduleTones')
+            },
+            addRollPoint() {
+              store.dispatch('addRollPoint')
             }
         },
     }
@@ -85,25 +88,25 @@
         position: relative;
         margin: 50px auto;
         width: 80%;
-        height: 100px;
-        border-style: solid;
+        height: 60px;
         background-color: #E9A134;
+        border-radius: 5px;
 
         -webkit-box-shadow: 10px 10px 12px 1px rgba(0,0,0,0.52);
         -moz-box-shadow: 10px 10px 12px 1px rgba(0,0,0,0.52);
         box-shadow: 10px 10px 12px 1px rgba(0,0,0,0.52);
     }
     .btn{
-        background-color: #2196F3;
-        color: beige;
+        background-color: darkgrey;
+        color: black;
         float: left;
         margin: 10px;
         width: 100px;
-        height: 40px;
+        height: 30px;
         border-radius: 5px;
     }
     .btn:hover{
-        background-color: #0A2B4B;
+        background-color: grey;
     }
 
     .control-group{
@@ -118,13 +121,13 @@
     }
 
     .switch {
-        top: 10%;
+        top: 15%;
         left: 5px;
         float: left;
         position: relative;
         display: inline-block;
         width: 60px;
-        height: 34px;
+        height: 24px;
     }
 
     .switch input {
@@ -148,7 +151,7 @@
     .slider:before {
         position: absolute;
         content: "";
-        height: 26px;
+        height: 16px;
         width: 26px;
         left: 4px;
         bottom: 4px;
@@ -158,7 +161,7 @@
     }
 
     input:checked + .slider {
-        background-color: #2196F3;
+        background-color: darkgrey;
     }
 
     input:focus + .slider {
@@ -173,14 +176,11 @@
 
     /* Rounded sliders */
     .slider.round {
-        border-radius: 34px;
+        border-radius: 5px;
     }
 
     .slider.round:before {
-        border-radius: 50%;
+        border-radius: 20%;
     }
-
-    /*****Radio**********/
-
 
 </style>
